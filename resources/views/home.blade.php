@@ -15,6 +15,7 @@
                     @endif
 
                     You are logged in!
+                    @posts
                 </div>
             </div>
         </div>

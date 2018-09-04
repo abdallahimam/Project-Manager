@@ -9,7 +9,7 @@
                         <h1 class="display-3 mb-1">{{ $company->name }}</h1>
                         <hr class="m-0 mb-1" />
                         <hr class="m-0 mb-1" />
-                        <p class="lead mb-1 text-truncate">{{ $company->description }}</p>
+                        <p class="lead mb-1 ">{{ $company->description }}</p>
                         <hr class="m-0 mb-1" />
                         <p><a class="btn btn-primary btn-lg mt-2" href="#" role="button">Learn more »</a></p>
                     </div>
@@ -109,7 +109,7 @@
                                 {{ csrf_field() }}
                                 <div class="input-group mb-2">
                                 <input type="hidden" name="company_id" value="{{ $company->id }}" />
-                                    <input type="text" name="member" id="member-id" class="form-control" placeholder="Email" />
+                                    <input type="text" name="member" id="member-id" class="form-control" placeholder="Email" required />
                                     <span class="input-group-btn"><button class="btn btn-default" type="submit"><i class="fa fa-user-plus"></i></button></span>
                                 </div>
                             </form>

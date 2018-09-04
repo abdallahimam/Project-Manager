@@ -32,7 +32,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('users/deleteSelected', 'UsersController@deleteSelected')->name('users.deleteSelected');
     Route::resource('users', 'UsersController');
     Route::resource('comments', 'CommentsController');
-    Route::get('/directions', function() {
+    Route::get('/posts', function() {
+        
         $client = new \GuzzleHttp\Client();
         $res = $client->request('GET', 'https://jsonplaceholder.typicode.com/posts');
         return json_decode($res->getBody(), true);

@@ -53,7 +53,7 @@
                     </table>
                     <br />
                     <input type="checkbox" id="checkAllLeft" name="selectAll" value="selectAllUsers" />
-                    <label for="checkAllLeft">Check All</label>
+                    <label for="checkAllLeft">select all</label>
                     <input type="submit" name="trash" value="Delete Selected" class="btn btn-danger btn-sm" />
                     <input type="submit" name="force" value="Force Delete" class="btn btn-danger btn-sm" />
                     </form>
@@ -110,7 +110,7 @@
                         </table>
                         <br />
                         <input type="checkbox" id="checkAllRight" name="selectAll" value="selectAllTrashes" />
-                        <label for="checkAllRight">Check All</label>
+                        <label for="checkAllRight">select all</label>
                         <input type="submit" name="restore" value="Restore" class="btn btn-danger btn-sm" />
                         <input type="submit" name="force" value="Force Delete" class="btn btn-danger btn-sm" />
                     </form>

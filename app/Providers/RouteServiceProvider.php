@@ -24,7 +24,7 @@ class RouteServiceProvider extends ServiceProvider
     public function boot()
     {
         //
-
+        include(base_path('routes\blade.php'));
         parent::boot();
     }
 

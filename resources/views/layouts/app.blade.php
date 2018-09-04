@@ -78,7 +78,7 @@
                                     </li>
                                 </ul>
                             </li>
-                        @endif
+                            @endif
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('companies.index') }}"><i class="fa fa-building"></i> {{ __('Companies') }}</a>
                             </li>
