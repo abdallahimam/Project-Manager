@@ -15,8 +15,8 @@ class UsersController extends Controller
     public function index()
     {
         //
-        $users = User::paginate(5, ['*'], 'usersPage');
-        $trashed = User::onlyTrashed()->paginate(5, ['*'], 'trashesPage');
+        $users = User::paginate(30, ['*'], 'usersPage');
+        $trashed = User::onlyTrashed()->paginate(30, ['*'], 'trashesPage');
 
         return view('users.index', ['users' => $users, 'trashed' => $trashed]);
     }

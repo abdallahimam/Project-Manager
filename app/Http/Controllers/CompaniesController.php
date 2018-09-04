@@ -135,14 +135,18 @@ class CompaniesController extends Controller
             $employer = User::where('email', $request->input('member'))->first();
             if (!$employer) {
                 return back()->withInput()->with('errors', ['User not exists.']);
-            }
-            $exist = User::where('work_at', $company->id)->first();
-            if ($exist) {
-                return back()->withInput()->with('errors', ['User is already in the company.']);
-            }
-            if ($employer && $company) {
-                $company->employers()->save($employer);
-                return back()->withInput()->with('success', 'Employer Added Successfully.');
+            } else if ($employer->work_at != null) {
+                $exist = User::where('work_at', $company->id)->first();
+                if ($exist) {
+                    return back()->withInput()->with('errors', ['User is already in the company.']);
+                } else {
+                    return back()->withInput()->with('errors', ['User is already registered in other the company.']);
+                }
+            } else {
+                if ($employer && $company) {
+                    $company->employers()->save($employer);
+                    return back()->withInput()->with('success', 'Employer Added Successfully.');
+                }
             }
             return back()->withInput()->with('errors', ['Failed to add the employer.']);
         }

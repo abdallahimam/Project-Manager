@@ -29,16 +29,19 @@ Route::middleware(['auth'])->group(function () {
     Route::post('tasks/adduser', 'TasksController@addUser')->name('tasks.adduser');
     Route::resource('tasks', 'TasksController');
     Route::resource('roles', 'RolesController');
-    Route::post('users/deleteSelected', 'UsersController@deleteSelected')->name('users.deleteSelected');
-    Route::resource('users', 'UsersController');
     Route::resource('comments', 'CommentsController');
     Route::get('/posts', function() {
         
         $client = new \GuzzleHttp\Client();
-        $res = $client->request('GET', 'https://jsonplaceholder.typicode.com/posts');
+        $res = $client->request('GET', 'https://jsonplaceholder.typicode.com/comments');
         return json_decode($res->getBody(), true);
     });
 
+});
+
+Route::group(['middleware' => 'admin'], function () {
+    Route::post('users/deleteSelected', 'UsersController@deleteSelected')->name('users.deleteSelected');
+    Route::resource('users', 'UsersController');
 });
 
 
