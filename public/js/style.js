@@ -5,3 +5,6 @@ $("#checkAllLeft").click(function () {
 $("#checkAllRight").click(function () {
     $(".checkTrashes").prop('checked', $(this).prop('checked'));
 });
+
+
+///// 

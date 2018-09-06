@@ -15,7 +15,18 @@
                     @endif
 
                     You are logged in!
-                    @posts
+                    <br />
+                    <hr />
+                    {!! Form::open(['file' => true, 'url' => 'upload/file']) !!}
+                    {!! Form::file('files[]') !!}
+                    {!! Form::submit('Save (single upload)') !!}
+                    {!! Form::close() !!}
+                    <br />
+                    <hr />
+                    {!! Form::open(['files' => true, 'url' => 'upload/files']) !!}
+                    {!! Form::file('files[]', ['multiple' => 'yes']) !!}
+                    {!! Form::submit('Save (multiple uploads)') !!}
+                    {!! Form::close() !!}
                 </div>
             </div>
         </div>

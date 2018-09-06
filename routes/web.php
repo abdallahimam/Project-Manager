@@ -37,11 +37,21 @@ Route::middleware(['auth'])->group(function () {
         return json_decode($res->getBody(), true);
     });
 
+    Route::post('upload/file', 'UploadController@upload');
+    Route::post('upload/files', 'UploadController@upload_multiple');
+
 });
 
 Route::group(['middleware' => 'admin'], function () {
     Route::post('users/deleteSelected', 'UsersController@deleteSelected')->name('users.deleteSelected');
     Route::resource('users', 'UsersController');
+});
+
+Route::get('/about', function() {
+    return view('layouts.about');
+});
+Route::get('/contact', function() {
+    return view('layouts.contact');
 });
 
 
