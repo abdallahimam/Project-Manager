@@ -14,7 +14,7 @@
                     <hr class="m-0 mb-1 w-50" />
                     <h3 class="m-0 mb-1">Task name: {{ $task->name }}</h3>
                     <hr class="m-0 mb-1" />
-                    <p class="lead mb-1">{{ $task->description }}</p>
+                    <div>{!! $task->description !!}</div>
                     <hr class="m-0 mb-1" />
                     <p class="lead">Task duration: <strong class="text-dark">{{ $task->days }}</strong> days and <strong class="text-dark">{{ $task->hours }}</strong> hours.</p>
                     <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more »</a></p>

@@ -7,4 +7,5 @@ $("#checkAllRight").click(function () {
 });
 
 
-///// 
+/////
+$('textarea').ckeditor();

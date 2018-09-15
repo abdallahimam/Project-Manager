@@ -14,7 +14,7 @@
                 <form action="{{ url('users/deleteSelected') }}" method="post">
                     {{ csrf_field() }}
                     <input type="hidden" name="_method" valuu="DELETE" />
-                    <table class="table-borderless table-responsive text-center">
+                    <table class="table table-borderless table-responsive text-center table-sm table-hover">
                         <thead>
                             <tr>
                                 <th></th>
@@ -71,7 +71,7 @@
                     <form action="{{ url('users/deleteSelected') }}" method="post">
                         {{ csrf_field() }}
                         <input type="hidden" name="_method" valuu="DELETE" />
-                        <table class="table-borderless table-responsive text-center">
+                        <table class="table table-borderless table-responsive text-center table-sm table-hover">
                             <thead>
                                 <tr>
                                     <th></th>

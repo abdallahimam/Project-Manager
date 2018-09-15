@@ -9,7 +9,7 @@
                         <h1 class="display-3 mb-1">{{ $company->name }}</h1>
                         <hr class="m-0 mb-1" />
                         <hr class="m-0 mb-1" />
-                        <p class="lead mb-1 ">{{ $company->description }}</p>
+                        <div class="mb-1 ">{!! $company->description !!}</div>
                         <hr class="m-0 mb-1" />
                         <p><a class="btn btn-primary btn-lg mt-2" href="#" role="button">Learn more »</a></p>
                     </div>
@@ -22,7 +22,7 @@
                             <h2>{{ $project->name }}</h2>
                             <hr class="m-0 mb-1" />
                             <hr class="m-0 mb-1" />
-                            <p class="lead mb-1 text-truncate">{{ $project->description }}</p>
+                            <div>{!! $project->description !!}</div>
                             <hr class="m-0 mb-1" />
                             <p><a class="btn btn-secondary mt-2" href="/projects/{{ $project->id }}" role="button">View Project »</a></p>
                         </div>

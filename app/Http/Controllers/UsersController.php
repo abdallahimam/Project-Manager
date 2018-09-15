@@ -50,7 +50,9 @@ class UsersController extends Controller
      */
     public function show(User $user)
     {
-        //
+        // if user is null show the the registered user else show the user that is assigned
+        $user = User::where('id', $user->id)->first();
+        return view('users.show', ['user' => $user]);
     }
 
     /**
@@ -61,7 +63,14 @@ class UsersController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        // if user is null show the the registered user else show the user that is assigned
+        if (auth()->user()->role_id == 1 || $user->id == auth()->user()->id) {
+            $user = User::where('id', $user->id)->first();
+            if ($user != null) {
+                return view('users.edit', ['user' => $user]);
+            }
+            return back()->with('errors', ['Invalid user.']);
+        }
     }
 
     /**
@@ -73,7 +82,37 @@ class UsersController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        // validate the data before updating them to database
+        $request->validate([
+            'fname' => 'required|max:80',
+            'mname' => 'required|max:80',
+            'lname' => 'required|max:95',
+            'address' => 'required|max:255',
+            'city' => 'required|max:255',
+            'country' => 'required|max:255',
+            'postal-code' => 'required|max:6',
+            'about-me' => 'required',
+            'phone' => 'required|min:11|max:15',
+        ]);
+        if (auth()->user()->role_id == 1 || $user->id == auth()->user()->id) {
+            $updatedUser = User::where('id', $user->id)->update([
+                'first_name' => $request->input('fname'),
+                'middle_name' => $request->input('mname'),
+                'last_name' => $request->input('lname'),
+                'name' => $request->input('fname') . ' ' . $request->input('mname') . ' ' . $request->input('lname'),
+                //'password' => $request->input('password'),
+                'address' => $request->input('address'),
+                'city' => $request->input('city'),
+                'country' => $request->input('country'),
+                'postal_code' => $request->input('postal-code'),
+                'phone' => $request->input('phone'),
+                'about_me' => $request->input('about-me'),
+            ]);
+            if ($updatedUser != null) {
+                return back()->withInput()->with(['success' => 'You Profile updated successfully.']);
+            }
+            return back()->with('errors', ['Invalid user.']);
+        }
     }
 
     /**
@@ -85,25 +124,71 @@ class UsersController extends Controller
     public function destroy(User $user)
     {
         //
-        if ($user) {
-            $deleted = User::find($user->id);
-            if ($deleted->delete()) {
-                return back();
+        if (auth()->user()->role_id == 1) {
+            if ($user->id == auth()->user()->id) {
+                return back()->with('errors', ['You can not delete yourself']);
             }
+            $deleted = User::find(request()->input('user_id'));
+            if ($deleted->delete()) {
+                return back()->with('success', 'User is moved to trash');
+            }
+            return back()->with('errors', ['User failed to move to trash']);
         }
-        return back();
+    }
+
+    public function delete(Request $request)
+    {
+        //
+        $user_id =$request->input('user_id');
+        if (auth()->user()->role_id == 1 || $user_id == auth()->user()->id) {
+            $deleted = User::find($user_id);
+            if ($deleted->delete()) {
+                return back()->with('success', 'User is moved to trash');
+            }
+            return back()->with('errors', ['User failed to move to trash']);
+        }
+    }
+
+    public function restore(Request $request)
+    {
+        //
+        $user_id =$request->input('user_id');
+        if (auth()->user()->role_id == 1 || $user_id == auth()->user()->id) {
+            $deleted = User::withTrashed()->find($user_id);
+            if ($deleted) {
+                User::where('id', $user_id)->restore();
+                return back()->with('success', 'User is restored from trash');
+            }
+            return back()->with('errors', ['User failed to restored from trash']);
+        }
+    }
+
+    public function force_delete(Request $request)
+    {
+        //
+        $user_id =$request->input('user_id');
+        if (auth()->user()->role_id == 1 || $user_id == auth()->user()->id) {
+            $deleted = User::withTrashed()->find($user_id);
+            if ($deleted) {
+                User::where('id', $user_id)->forceDelete();
+                return back()->with('success', 'User is permenantly deleted');
+            }
+            return back()->with('errors', ['User failed to move to trash']);
+        }
     }
 
     public function deleteSelected() {
-        if (request()->has('id')) {
-            if (request()->has('restore')) {
-                User::whereIn('id', request('id'))->restore();
-            } else if (request()->has('force')) {
-                User::whereIn('id', request('id'))->forceDelete();
-            } else {
-                User::destroy(request('id'));
+        if (auth()->user()->role_id == 1) {
+            if (request()->has('id')) {
+                if (request()->has('restore')) {
+                    User::whereIn('id', request('id'))->restore();
+                } else if (request()->has('force')) {
+                    User::whereIn('id', request('id'))->forceDelete();
+                } else {
+                    User::destroy(request('id'));
+                }
             }
+            return back();
         }
-        return back();
     }
 }

@@ -11,7 +11,7 @@
                 </div>
                 <ul class="list-group list-group-flush">
                     @foreach($tasks as $task)
-                        <li class="list-group-item"><a href="tasks/{{ $task->id }}"><i class="fa fa-tasks"></i> {{ $task->name }}</a></li>
+                        <li class="list-group-item"><a href="/tasks/{{ $task->id }}"><i class="fa fa-tasks"></i> {{ $task->name }}</a></li>
                     @endforeach
                 </ul>
             </div>

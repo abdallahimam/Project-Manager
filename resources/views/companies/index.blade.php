@@ -11,7 +11,7 @@
                 </div>
                 <ul class="list-group list-group-flush">
                     @foreach($companies as $company)
-                        <li class="list-group-item"><a href="companies/{{ $company->id }}">{{ $company->name }}</a></li>
+                        <li class="list-group-item"><a href="/companies/{{ $company->id }}">{{ $company->name }}</a></li>
                     @endforeach
                 </ul>
             </div>

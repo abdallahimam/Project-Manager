@@ -10,7 +10,7 @@
                     <hr class="m-0 mb-1" />
                     <h3 class="m-0 mb-1">Project name: {{ $project->name }}</h3>
                     <hr class="m-0 mb-1" />
-                    <p class="lead mb-1">{{ $project->description }}</p>
+                    <div>{!! $project->description !!}</div>
                     <hr class="m-0 mb-1" />
                     <p class="lead">Project duration: <strong class="text-dark">{{ $project->days }}</strong> days.</p>
                     <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more »</a></p>
@@ -30,7 +30,7 @@
                                     <h2>{{ $task->name }}</h2>
                                     <hr class="m-0 mb-1" />
                                     <hr class="m-0 mb-1" />
-                                    <p class="lead text-truncate">{{ $task->description }}</p>
+                                    <div>{!! $task->description !!}</div>
                                     <hr class="m-0 mb-1" />
                                     <p><a class="btn btn-secondary mt-2" href="/tasks/{{ $task->id }}" role="button">View Task »</a></p>
                                 </div>
