@@ -14,7 +14,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         // default string length
-        Schema::defaultStringLength(191);
+        Schema::enableForeignKeyConstraints();
+        Schema::defaultStringLength(255);
     }
 
     /**

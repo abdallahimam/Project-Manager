@@ -22,13 +22,13 @@ class CreateCompaniesTable extends Migration
                 $table->string('address')->nullable();
                 $table->longText('description')->nullable();
                 $table->integer('user_id')->unsigned();
-                $table->foreign('user_id')->references('id')->on('users');
+                $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
                 $table->softDeletes();
                 $table->timestamps();
             });
         } else {
             Schema::table('companies', function (Blueprint $table) {
-                $table->foreign('user_id')->references('id')->on('users');
+                $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             });
         }
     }

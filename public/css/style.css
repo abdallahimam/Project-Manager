@@ -90,6 +90,15 @@ a {
         z-index: 100;
         font-size: 16px;
     }
+    .footer {
+        position: fixed;
+        background-color: #d8c5f7;
+        bottom: 0;
+        right: 0;
+        left: 240px;
+        z-index: 1001;
+        font-size: 10px;
+    }
 }
 
 .my-dashboard {
@@ -104,6 +113,7 @@ a {
     position: relative;
     top: 65px !important;
     margin-top: 14px;
+    padding-bottom: 70px !important;
 }
 
 
@@ -195,3 +205,14 @@ a {
 .avatar .border-gray {
     border-color: #EEEEEE;
 }
+
+.footer {
+    background-color: #d8c5f7;
+}
+
+.bg-footer {
+    background-color: #d8c5f7 !important;
+}
+
+
+/**** end   ***/

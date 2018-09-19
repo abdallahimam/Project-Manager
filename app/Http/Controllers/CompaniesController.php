@@ -126,12 +126,25 @@ class CompaniesController extends Controller
     public function destroy(Company $company)
     {
         // delete the company
-        if (auth()->user()->role_id == 1 || $company->user_id == auth()->user->id) {
-            $findCompany = Company::find($company->id);
-            if ($findCompany->delete()) {
-                return redirect()->route('companies.index')->with('success', ['Company deleted succussfully.']);
+        if ((auth()->user()->role_id == 1 || $company->user_id == auth()->user()->id) && $company != null) {
+            if (Company::where('id', $company->id)->delete()) {
+                if (Project::where('company_id', $company->id)->count() != 0) {
+                    if (Project::where('company_id', $company->id)->delete()) {
+                        if (Task::where('company_id', $company->id)->count() != 0) {
+                            if (Task::where('company_id', $company->id)->delete()) {
+                                return redirect('/companies')->with('success', 'Company is move to trash');
+                            }
+                        } else {
+                            return redirect('/companies')->with('success', 'Company is move to trash');
+                        }
+                    }
+                } else {
+                    return redirect('/companies')->with('success', 'Company is move to trash');
+                }
             }
-            return back()->withInput()->with('error', ['Can\'t delete company.']);
+            Company::where('id', $company->id)->restore();
+            Project::where('company_id', $company->id)->restore();
+            return back()->with('errors', ['Company failed to move to trash']);
         }
     }
 
@@ -169,17 +182,22 @@ class CompaniesController extends Controller
         $company = Company::find($request->input('company_id'));
         if ((auth()->user()->role_id == 1 || $company->user_id == auth()->user()->id) && $company != null) {
             if (Company::where('id', $company->id)->delete()) {
-                if (Task::withTrashed()->where('company_id', $company->id)->delete()) {
-                    if (Project::withTrashed()->where('company_id', $company->id)->delete()) {
-                        return back()->with('success', 'User is move to trash');
-                    } else {
-                        Company::where('id', $company->id)->restore();
-                        Task::where('company_id', $company->id)->restore();
+                if (Project::where('company_id', $company->id)->count() != 0) {
+                    if (Project::where('company_id', $company->id)->delete()) {
+                        if (Task::where('company_id', $company->id)->count() != 0) {
+                            if (Task::where('company_id', $company->id)->delete()) {
+                                return redirect('/companies')->with('success', 'Company is move to trash');
+                            }
+                        } else {
+                            return redirect('/companies')->with('success', 'Company is move to trash');
+                        }
                     }
                 } else {
-                    Company::where('id', $company->id)->restore();
+                    return redirect('/companies')->with('success', 'Company is move to trash');
                 }
             }
+            Company::where('id', $company->id)->restore();
+            Project::where('company_id', $company->id)->restore();
             return back()->with('errors', ['Company failed to move to trash']);
         }
     }
@@ -189,11 +207,11 @@ class CompaniesController extends Controller
         //
         $company = Company::find($request->input('company_id'));
         if ((auth()->user()->role_id == 1 || $company->user_id == auth()->user()->id) && $company == null) {
-            $deleted = Company::withTrashed()->find($company->id);
+            $deleted = Company::withTrashed()->find($request->input('company_id'));
             if ($deleted) {
-                Company::where('id', $company->id)->restore();
-                Project::where('company_id', $company->id)->restore();
-                Task::where('company_id', $company->id)->restore();
+                Company::where('id', $deleted->id)->restore();
+                Project::where('company_id', $deleted->id)->restore();
+                Task::where('company_id', $deleted->id)->restore();
                 return back()->with('success', 'Company is restored from trash');
             }
             return back()->with('errors', ['Comany failed to restored from trash']);
@@ -205,14 +223,11 @@ class CompaniesController extends Controller
         //
         $company = Company::withTrashed()->find($request->input('company_id'));
         if ((auth()->user()->role_id == 1 || $company->user_id == auth()->user()->id) && $company != null) {
-            $deleted = Company::withTrashed()->find($company->id);
-            if ($deleted) {
-                Company::where('id', $company->id)->forceDelete();
-                Project::where('company_id', $company->id)->forceDelete();
-                Task::where('company_id', $company->id)->forceDelete();
-                return back()->with('success', 'User is permenantly deleted');
-            }
-            return back()->with('errors', ['User failed to move to trash']);
+            Company::where('id', $company->id)->forceDelete();
+            Project::where('company_id', $company->id)->forceDelete();
+            Task::where('company_id', $company->id)->forceDelete();
+            return back()->with('success', 'Company is permenantly deleted');
         }
+        return back()->with('errors', ['Company failed to move to trash']);
     }
 }

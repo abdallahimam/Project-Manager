@@ -3,7 +3,7 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-12 col-md-9 col-lg-9">
-                <form action="{{ route('projects.store') }}" method="POST">
+                <form action="{{ route('projects.store') }}" method="POST" enctype="multipart/form-data">
                     {{ csrf_field() }}
                     @if($company_id != null)
                     <input class="form-control" type="hidden" name="company_id" value="{{ $company_id }}" />
@@ -22,13 +22,23 @@
                         </select>
                     </div>
                     @endif
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="project-files">Project Files:</label>
+                                <input type="file" name="files[]" id="project-files" class="form-control" multiple="yes" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="project-duration">Days</label>
+                                <input type="number" name="days" id="project-duration" min="1" class="form-control p-2" placeholder="Enter Number of Days"/>
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label for="project-description">Description</label>
                         <textarea name="description" id="project-description" class="form-control" placeholder="Enter description" rows="4"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="project-duration">Days</label>
-                        <input type="number" name="days" id="project-duration" min="1" class="form-control" placeholder="Enter Number of Days"/>
                     </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary mb-2">Create project</button>

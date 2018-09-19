@@ -55,7 +55,7 @@
                             <div class="col-md-6 pl-1">
                                 <div class="form-group">
                                     <label>Conform password</label>
-                                    <input type="tel" name="phopassword_confirmationne" class="form-control" placeholder="Confirm password" autocomplete="off">
+                                    <input type="password" name="password_confirmation" class="form-control" placeholder="Confirm password" autocomplete="off">
                                 </div>
                             </div>
                         </div>

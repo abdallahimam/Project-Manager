@@ -19,12 +19,12 @@ class CreateCommentsTable extends Migration
             Schema::create('comments', function (Blueprint $table) {
                 
                 $table->increments('id')->unsigned();
-                $table->string('url', 255)->nullable();
+                $table->string('url')->nullable();
                 $table->longText('body');
                 $table->integer('commentable_id')->unsigned();
                 $table->string('commentable_type');
                 $table->integer('user_id')->unsigned();
-                $table->foreign('user_id')->references('id')->on('users');
+                $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
                 $table->softDeletes();
                 $table->timestamps();
             });

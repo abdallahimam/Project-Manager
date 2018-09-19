@@ -14,6 +14,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         'App\Model' => 'App\Policies\ModelPolicy',
+        'App\User' => 'App\Policies\CheckAdminPolicy',
     ];
 
     /**
@@ -26,5 +27,6 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         //
+        Gate::define('admin', 'App\Policies\CheckAdminPolicy@checkUserAdmin');
     }
 }

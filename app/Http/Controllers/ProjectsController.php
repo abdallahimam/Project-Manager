@@ -7,6 +7,8 @@ use App\ProjectUser;
 use App\User;
 use App\Task;
 use App\Company;
+use App\File;
+use Storage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -55,24 +57,50 @@ class ProjectsController extends Controller
     {
         //
         $company = Company::find($request->input('company_id'));
-        if (auth()->user()->role_id == 1 || $company->user_id == auth()->user->id) {
-            if (Auth::check()) {
-                // create the project record or object and save the project to the database.
-                $project = Project::create([
-                    'name' => $request->input('name'),
-                    'description' => $request->input('description'),
-                    'user_id' => Auth::user()->id,
-                    'days' => $request->input('days'),
-                    'company_id' => $request->input('company_id')
-                ]);
-                // now the response
-                if ($project) {
-                    $comments = $project->comments;
-                    return redirect()->route('projects.show', ['project' => $project, 'comments' => $comments])->with('success', 'Project Created Successfully.');
+        if ($company != null) {
+            if (auth()->user()->role_id == 1 || $company->user_id == auth()->user->id) {
+                if (Auth::check()) {
+                    // create the project record or object and save the project to the database.
+                    $project = Project::create([
+                        'name' => $request->input('name'),
+                        'description' => $request->input('description'),
+                        'user_id' => Auth::user()->id,
+                        'days' => $request->input('days'),
+                        'company_id' => $request->input('company_id')
+                    ]);
+
+                    if ($request->has('files')) {
+                        $files = $request->file('files');
+                        $i = 0;
+                        foreach ($files as $file) {
+                            # code...
+                            $realname = $file->getClientOriginalName();
+                            $extension = $file->getClientOriginalExtension();
+                            $size = $file->getSize();
+                            $mime = $file->getMimeType();
+                            $fakename = auth()->user()->id . '_image_' . $i++ . '_' . time() . '.' . $extension;
+                            Storage::makeDirectory('images/' . $project->id);
+                            $newname = $file->store('images/' . $project->id);
+                            $upload_file = File::create([
+                                'user_id' => auth()->user()->id,
+                                'project_id' => $project->id,
+                                'realname' => $realname,
+                                'extension' =>$extension,
+                                'size' => $size,
+                                'mime' => $mime,
+                                'path' => $newname,
+                            ]);
+                        }
+                    }
+                    // now the response
+                    if ($project) {
+                        $comments = $project->comments;
+                        return redirect()->route('projects.show', ['project' => $project, 'comments' => $comments])->with('success', 'Project Created Successfully.');
+                    }
+                    return back()->withInput()->with('errors', ['Can\'t create new project.']);
                 }
-                return back()->withInput()->with('errors', ['Can\'t create new project.']);
+                return back()->withInput()->with('errors', ['To Create New Project, You Must login First.']);
             }
-            return back()->withInput()->with('errors', ['To Create New Project, You Must login First.']);
         }
     }
 
@@ -116,20 +144,60 @@ class ProjectsController extends Controller
     {
         //
         if (auth()->user()->role_id == 1 || $project->user_id == auth()->user->id) {
+            if ($request->has('delete')) {
+                if ($request->has('files_id')) {
+                    if (count($request->input('files_id')) > 0) {
+                        foreach ($request->input('files_id') as $file_id) {
+                            # code...
+                            $file = File::find($file_id);
+                            if ($file) {
+                                Storage::delete($file->path);
+                                $file->forceDelete();
+                            }
+                        }
+                        return back()->with('success', 'Files are successfully deleted.');
+                    }
+                }
+                return back()->with('errors', ['Select files to deleted.']);
+            }
+            /////////////////////// need to implement
             $updatedProject = Project::where('id', $project->id)->update([
                 'name' => $request->input('name'),
                 'description' => $request->input('description'),
                 'days' => $request->input('days')
             ]);
-    
+            
+            if ($request->has('files')) {
+                $files = $request->file('files');
+                if ($files) {
+                    $i = 0;
+                    foreach ($files as $file) {
+                        # code...
+                        $realname = $file->getClientOriginalName();
+                        $extension = $file->getClientOriginalExtension();
+                        $size = $file->getSize();
+                        $mime = $file->getMimeType();
+                        $fakename = auth()->user()->id . '_image_' . $i++ . '_' . time() . '.' . $extension;
+                        Storage::makeDirectory('images/' . $project->id);
+                        $newname = $file->store('images/' . $project->id);
+                        $upload_file = File::create([
+                            'user_id' => auth()->user()->id,
+                            'project_id' => $project->id,
+                            'realname' => $realname,
+                            'extension' =>$extension,
+                            'size' => $size,
+                            'mime' => $mime,
+                            'path' => $newname,
+                        ]);
+                    }
+                }
+            }
             if ($updatedProject) {
                 $comments = $project->comments;
                 return redirect()->route('projects.show', ['project' => $project->id, 'comments' => $comments])->with('success', 'Project updated successfully.');
             }
-    
             return back()->withInput()->with('error', ['Project was not updated successfully.']);
         }
-        
     }
 
     /**

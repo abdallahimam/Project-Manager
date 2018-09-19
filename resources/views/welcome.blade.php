@@ -110,7 +110,10 @@
                 </div>
             </div>
         </nav>
-        <div class="flex-center position-ref full-height">
+        <div class="content">
+            <div class="container">
+                <h1 class="text-uppercase text-center">Welcome Page</h1>
+            </div>
         </div>
     </body>
 </html>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller
 {
@@ -93,6 +94,7 @@ class UsersController extends Controller
             'postal-code' => 'required|max:6',
             'about-me' => 'required',
             'phone' => 'required|min:11|max:15',
+            'password' => 'min:8|max:255|confirmed',
         ]);
         if (auth()->user()->role_id == 1 || $user->id == auth()->user()->id) {
             $updatedUser = User::where('id', $user->id)->update([
@@ -100,7 +102,7 @@ class UsersController extends Controller
                 'middle_name' => $request->input('mname'),
                 'last_name' => $request->input('lname'),
                 'name' => $request->input('fname') . ' ' . $request->input('mname') . ' ' . $request->input('lname'),
-                //'password' => $request->input('password'),
+                'password' => Hash::make($request->input('password')),
                 'address' => $request->input('address'),
                 'city' => $request->input('city'),
                 'country' => $request->input('country'),

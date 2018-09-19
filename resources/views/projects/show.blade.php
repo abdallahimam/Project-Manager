@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-sm-9 col-md-9 col-lg-9">
                 <!-- Main jumbotron for a primary marketing message or call to action -->
-                <div class="jumbotron mt-0 pt-5 mb-2 bg-info text-dark">
+                <div class="jumbotron mt-0 pt-5 mb-2 bg-secondry text-dark">
                     <h1 class="m-0 mb-1">Company name: {{ $project->company->name }}</h1>
                     <hr class="m-0 mb-1" />
                     <hr class="m-0 mb-1" />
@@ -12,8 +12,21 @@
                     <hr class="m-0 mb-1" />
                     <div>{!! $project->description !!}</div>
                     <hr class="m-0 mb-1" />
-                    <p class="lead">Project duration: <strong class="text-dark">{{ $project->days }}</strong> days.</p>
-                    <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more »</a></p>
+                    <p class="lead">Project will take <strong class="text-dark">{{ $project->days }}</strong> days.</p>
+                    @if(count($project->files) > 0)
+                    <div class="project-photo">
+                        <h1 class="my-4 text-center text-lg-left">Project photos</h1>
+                        <div class="row text-center text-lg-left">
+                            @foreach($project->files as $file)
+                            <div class="col-lg-3 col-md-4 col-xs-6">
+                                <a href="#" class="d-block mb-4 h-100">
+                                    <img class="img-fluid img-thumbnail" src="{{ asset('uploads/' . $file->path) }}" alt="{{ $file->realname }}">
+                                </a>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    @endif
                 </div>
                 <div class="tasks">
                     <div class="card">

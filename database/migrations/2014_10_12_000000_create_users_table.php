@@ -50,7 +50,7 @@ class CreateUsersTable extends Migration
                 $table->string('address')->nullable();
                 $table->string('country')->nullable();
                 $table->integer('postal_code')->unsigned()->nullable();
-                $table->integer('phone')->unsigned()->nullable();
+                $table->string('phone')->nullable();
                 $table->longText('about_me')->nullable();
                 $table->integer('role_id')->unsigned();
                 $table->integer('work_at')->unsigned()->nullable();
@@ -61,8 +61,8 @@ class CreateUsersTable extends Migration
         }
 
         Schema::table('users', function (Blueprint $table) {
-            $table->foreign('role_id')->references('id')->on('roles');
-            $table->foreign('work_at')->references('id')->on('companies');
+            $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
+            $table->foreign('work_at')->references('id')->on('companies')->onDelete('cascade');
         });
     }
 

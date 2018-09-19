@@ -94,6 +94,14 @@ Route::group(['middleware' => 'admin'], function () {
 
 });
 
+Route::get('/hello', function () {
+    if (Gate::allows('admin', auth()->user())) {
+        return 'Hello From Admin Gate.';
+    } else {
+        return 'you are not the admin to say show welcome message.';
+    }
+});
+
 
 
 

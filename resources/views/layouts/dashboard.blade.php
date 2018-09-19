@@ -32,6 +32,35 @@
             </div>
         </div>
     </div>
+    <div class="row placeholders">
+        <div class="col-xs-6 col-sm-3">
+            <div class="placeholder">
+                <i class="fa fa-5x fa-user-secret"></i>
+                <h4>Admins</h4>
+                <span class="text-muted">{{ $companies_number }}</span>
+            </div>
+        </div>
+        <div class="col-xs-6 col-sm-3">
+            <div class="placeholder">
+                <i class="fa fa-5x fa-comments"></i>
+                <h4>Comments</h4>
+                <span class="text-muted">{{ $projects_number }}</span></div>
+            </div>
+        <div class="col-xs-6 col-sm-3">
+            <div class="placeholder">
+                <i class="fa fa-5x fa-user-plus"></i>
+                <h4>Pending Users</h4>
+                <span class="text-muted">{{ $tasks_number }}</span>
+            </div>
+        </div>
+        <div class="col-xs-6 col-sm-3">
+            <div class="placeholder">
+                <i class="fa fa-5x fa-eye"></i>
+                <h4>Visitors</h4>
+                <span class="text-muted">{{ $users_number }}</span>
+            </div>
+        </div>
+    </div>
     @if($users_number > 0)
     <h2 class="sub-header"><i class="fa fa-users mr-3"></i>Users <span class="pull-right pr-5 rounded-circle">{{ $users_number }}</span></h2>
     <div class="table-responsive table-sm">

@@ -4,7 +4,7 @@
 
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-6 col-lg-6">
+        <div class="col-12">
             <div class="card bg-light">
                 <div class="card-header text-secondary">
                     <span class="mb-0 h4">Projects</span>

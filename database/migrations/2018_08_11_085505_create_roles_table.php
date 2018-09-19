@@ -17,7 +17,6 @@ class CreateRolesTable extends Migration
 
         if (!Schema::hasTable('roles')) {
             Schema::create('roles', function (Blueprint $table) {
-                
                 $table->increments('id')->unsigned();
                 $table->string('name');
                 $table->softDeletes();

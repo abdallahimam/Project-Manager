@@ -57,4 +57,8 @@ class User extends Authenticatable
         return $this->belongsTo('App\Role');
     }
 
+    public function files() {
+        return $this->hasMany('App\File');
+    }
+
 }
