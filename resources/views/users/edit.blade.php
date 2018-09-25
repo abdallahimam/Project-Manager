@@ -60,12 +60,28 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-8">
                                 <div class="form-group">
                                     <label>Address</label>
                                     <input type="text" name="address" class="form-control" placeholder="Home Address" value="{{ $user->address }}">
                                 </div>
                             </div>
+                            @if(auth()->user()->role_id == 1)
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label fol="selectRole">Change the role</label>
+                                    <select name="role" id="selectRole" class="form-control">
+                                        @foreach($roles as $role)
+                                            @if($role->id == $user->role_id)
+                                            <option value="{{ $role->id }}" selected>{{ $role->name }}</option>
+                                            @else
+                                            <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            @endif
                         </div>
                         <div class="row">
                             <div class="col-md-4 pr-1">

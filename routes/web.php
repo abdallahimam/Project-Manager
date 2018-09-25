@@ -81,10 +81,9 @@ Route::middleware(['auth'])->group(function () {
 
 });
 
-Route::group(['middleware' => 'admin'], function () {
+Route::group(['middleware' => ['admin']], function () {
 
     Route::post('users/deleteSelected', 'UsersController@deleteSelected')->name('users.deleteSelected');
-    Route::resource('users', 'UsersController');
 
     Route::get('admin/all/companies', 'AdminController@get_all_companies');
     Route::get('admin/all/projects', 'AdminController@get_all_projects');

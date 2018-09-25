@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -68,10 +69,12 @@ class UsersController extends Controller
         if (auth()->user()->role_id == 1 || $user->id == auth()->user()->id) {
             $user = User::where('id', $user->id)->first();
             if ($user != null) {
-                return view('users.edit', ['user' => $user]);
+                $roles = Role::all();
+                return view('users.edit', ['user' => $user, 'roles' => $roles]);
             }
             return back()->with('errors', ['Invalid user.']);
         }
+        return back()->with('errors', ['url not found']);
     }
 
     /**
@@ -109,6 +112,7 @@ class UsersController extends Controller
                 'postal_code' => $request->input('postal-code'),
                 'phone' => $request->input('phone'),
                 'about_me' => $request->input('about-me'),
+                'role_id' => $request->input('role'),
             ]);
             if ($updatedUser != null) {
                 return back()->withInput()->with(['success' => 'You Profile updated successfully.']);
