@@ -149,9 +149,9 @@ class TasksController extends Controller
     {
         //
         if (auth()->user()->role_id == 1 || auth()->user()->id == $task->user_id) {
-            $findTask = Company::find($task->id);
+            $findTask = Task::find($task->id);
             if ($findTask->delete()) {
-                return redirect()->route('tasks.index')->with('success', ['Task deleted succussfully.']);
+                return redirect()->route('tasks.index')->with('success', 'Task deleted succussfully.');
             }
             return back()->withInput()->with('error', ['Can\'t delete task.']);
         }

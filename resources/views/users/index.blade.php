@@ -4,70 +4,13 @@
 
 <div class="container-fluid">
     <div class="row justify-content-center">
-        <div class="col-md-6 col-lg-6">
+        <div class="col-md-12 col-lg-8">
             <div class="card bg-light">
                 <div class="card-header text-secondary">
-                    <span class="mb-0 h4">Users</span>
+                    <span class="mb-0 h4">Manage the users</span>
                 </div>
                 <div class="card-body text-secondary">
-                @if(count($users))
-                <form action="{{ url('users/deleteSelected') }}" method="post">
-                    {{ csrf_field() }}
-                    <input type="hidden" name="_method" valuu="DELETE" />
-                    <table class="table table-borderless table-responsive text-center table-sm table-hover">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>First name</th>
-                                <th>Middle name</th>
-                                <th>Last name</th>
-                                <th>E-mail</th>
-                                <th>Role ID</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($users as $user)
-                                <tr>
-                                    <td>
-                                        <input type="checkbox" class="checkUsers" name="id[]" value="{{ $user->id }}" />
-                                    </td>
-                                    <td>{{$user->first_name}}</td>
-                                    <td>{{$user->middle_name}}</td>
-                                    <td>{{$user->last_name}}</td>
-                                    <td>{{$user->email}}</td>
-                                    <td>{{$user->role_id}}</td>
-                                    <!--
-                                    <td>
-                                        <form id="deleteOne" action="{{ route('users.destroy', [$user->id]) }}" method="post">
-                                            <input form="deleteOne" type="hidden" name="_token" value="{{ csrf_token() }}" />
-                                            <input form="deleteOne" type="hidden" name="_method" valuu="DELETE" />
-                                            <input form="deleteOne" type="submit" value="Delete" class="btn btn-danger btn-sm" />
-                                        </form>
-                                    </td>
-                                    -->
-                                </tr>
-                            @endforeach
-                            {{ $users->appends(['trashesPage' => $trashed->currentPage()])->links() }}
-                        </tbody>
-                    </table>
-                    <br />
-                    <input type="checkbox" id="checkAllLeft" name="selectAll" value="selectAllUsers" />
-                    <label for="checkAllLeft">select all</label>
-                    <input type="submit" name="trash" value="Delete Selected" class="btn btn-danger btn-sm" />
-                    <input type="submit" name="force" value="Force Delete" class="btn btn-danger btn-sm" />
-                    </form>
-                    @endif
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6 col-lg-6">
-            <div class="card bg-light">
-                <div class="card-header text-secondary">
-                    <span class="mb-0 h4">Trashed Users</span>
-                </div>
-                <div class="card-body text-secondary">
-                @if(count($trashed))
+                    @if(count($users))
                     <form action="{{ url('users/deleteSelected') }}" method="post">
                         {{ csrf_field() }}
                         <input type="hidden" name="_method" valuu="DELETE" />
@@ -79,42 +22,47 @@
                                     <th>Middle name</th>
                                     <th>Last name</th>
                                     <th>E-mail</th>
-                                    <th>Role ID</th>
+                                    <th>Role</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($trashed as $user)
+                                @foreach($users as $user)
                                     <tr>
                                         <td>
-                                            <input type="checkbox" class="checkTrashes" name="id[]" value="{{ $user->id }}" />
+                                            <div class="custom-control custom-checkbox custom-control-inline">
+                                                <input type="checkbox" class="custom-control-input checkUsers" id='checkAllusers{{ $user->id }}' name="id[]" value="{{ $user->id }}" />
+                                                <label class="custom-control-label" for="checkAllusers{{ $user->id }}"></label>
+                                            </div>
                                         </td>
                                         <td>{{$user->first_name}}</td>
                                         <td>{{$user->middle_name}}</td>
                                         <td>{{$user->last_name}}</td>
                                         <td>{{$user->email}}</td>
-                                        <td>{{$user->role_id}}</td>
-                                        <!--
+                                        <td>{{$user->role->name}}</td>
                                         <td>
-                                            <form id="deleteOne" action="{{ route('users.destroy', [$user->id]) }}" method="post">
-                                                <input form="deleteOne" type="hidden" name="_token" value="{{ csrf_token() }}" />
-                                                <input form="deleteOne" type="hidden" name="_method" valuu="DELETE" />
-                                                <input form="deleteOne" type="submit" value="Delete" class="btn btn-danger btn-sm" />
-                                            </form>
+                                            <a href="{{ route('users.edit', [$user->id]) }}" class="btn btn-success btn-sm">Edit</a>
+                                            <input type="submit" name="single-button-trash" value="Remove" class="btn btn-danger btn-sm" />
+                                            @if($user->deleted_at != null)
+                                            <input type="submit" name="single-button-trash" value="Restore" class="btn btn-primary btn-sm" />
+                                            @else
+                                            <input type="submit" name="single-button-trash" value="Trash" class="btn btn-danger btn-sm" />
+                                            @endif
                                         </td>
-                                        -->
                                     </tr>
                                 @endforeach
-                                {{ $trashed->appends(['usersPage' => $users->currentPage()])->links() }}
+                                {{ $users->links() }}
                             </tbody>
                         </table>
                         <br />
-                        <input type="checkbox" id="checkAllRight" name="selectAll" value="selectAllTrashes" />
-                        <label for="checkAllRight">select all</label>
-                        <input type="submit" name="restore" value="Restore" class="btn btn-danger btn-sm" />
-                        <input type="submit" name="force" value="Force Delete" class="btn btn-danger btn-sm" />
+                        <div class="custom-control custom-checkbox custom-control-inline">
+                            <input type="checkbox" class="custom-control-input" id="checkAllLeft" name="selectAll" value="selectAllUsers" />
+                            <label class="custom-control-label" for="checkAllLeft">Select all</label>
+                        </div>
+                        <input type="submit" name="trash" value="Trash" class="btn btn-danger btn-sm" />
+                        <input type="submit" name="force" value="Remove" class="btn btn-danger btn-sm" />
                     </form>
-                @endif
+                    @endif
                 </div>
             </div>
         </div>

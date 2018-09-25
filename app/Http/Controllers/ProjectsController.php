@@ -58,7 +58,7 @@ class ProjectsController extends Controller
         //
         $company = Company::find($request->input('company_id'));
         if ($company != null) {
-            if (auth()->user()->role_id == 1 || $company->user_id == auth()->user->id) {
+            if (auth()->user()->role_id == 1 || $company->user_id == auth()->user()->id) {
                 if (Auth::check()) {
                     // create the project record or object and save the project to the database.
                     $project = Project::create([
@@ -143,7 +143,7 @@ class ProjectsController extends Controller
     public function update(Request $request, Project $project)
     {
         //
-        if (auth()->user()->role_id == 1 || $project->user_id == auth()->user->id) {
+        if (auth()->user()->role_id == 1 || $project->user_id == auth()->user()->id) {
             if ($request->has('delete')) {
                 if ($request->has('files_id')) {
                     if (count($request->input('files_id')) > 0) {
@@ -209,7 +209,7 @@ class ProjectsController extends Controller
     public function destroy(Project $project)
     {
         // delete the project
-        if (auth()->user()->role_id == 1 || $project->user_id == auth()->user->id) {
+        if (auth()->user()->role_id == 1 || $project->user_id == auth()->user()->id) {
             $findProject = Project::find($project->id);
             if ($findProject->delete()) {
                 return redirect()->route('projects.index')->with('success', ['Project deleted succussfully.']);

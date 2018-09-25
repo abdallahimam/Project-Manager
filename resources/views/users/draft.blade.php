@@ -160,6 +160,68 @@
         </div>
     </div>
 </div>
+
+
+<!--
+        <div class="col-md-12 col-lg-8 mt-3">
+            <div class="card bg-light">
+                <div class="card-header text-secondary">
+                    <span class="mb-0 h4">Trashed Users</span>
+                </div>
+                <div class="card-body text-secondary">
+                    @if(count($trashed))
+                        <form action="{{ url('users/deleteSelected') }}" method="post">
+                            {{ csrf_field() }}
+                            <input type="hidden" name="_method" valuu="DELETE" />
+                            <table class="table table-borderless table-responsive text-center table-sm table-hover">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>First name</th>
+                                        <th>Middle name</th>
+                                        <th>Last name</th>
+                                        <th>E-mail</th>
+                                        <th>Role ID</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($trashed as $user)
+                                        <tr>
+                                            <td>
+                                                <input type="checkbox" class="checkTrashes" name="id[]" value="{{ $user->id }}" />
+                                            </td>
+                                            <td>{{$user->first_name}}</td>
+                                            <td>{{$user->middle_name}}</td>
+                                            <td>{{$user->last_name}}</td>
+                                            <td>{{$user->email}}</td>
+                                            <td>{{$user->role_id}}</td>
+                                            
+                                            <td>
+                                                <form id="deleteOne" action="{{ route('users.destroy', [$user->id]) }}" method="post">
+                                                    <input form="deleteOne" type="hidden" name="_token" value="{{ csrf_token() }}" />
+                                                    <input form="deleteOne" type="hidden" name="_method" valuu="DELETE" />
+                                                    <input form="deleteOne" type="submit" value="Delete" class="btn btn-danger btn-sm" />
+                                                </form>
+                                            </td>
+                                            
+                                        </tr>
+                                    @endforeach
+                                    {{ $trashed->appends(['usersPage' => $users->currentPage()])->links() }}
+                                </tbody>
+                            </table>
+                            <br />
+                            <input type="checkbox" id="checkAllRight" name="selectAll" value="selectAllTrashes" />
+                            <label for="checkAllRight">select all</label>
+                            <input type="submit" name="restore" value="Restore" class="btn btn-danger btn-sm" />
+                            <input type="submit" name="force" value="Remove" class="btn btn-danger btn-sm" />
+                        </form>
+                    @endif
+                </div>
+            </div>
+        </div>
+        -->
+        
 @endsection
 
 

@@ -47,6 +47,7 @@ class CreateUsersTable extends Migration
                 $table->string('middle_name');
                 $table->string('last_name');
                 $table->string('city')->nullable();
+                $table->string('api_token')->nullable();
                 $table->string('address')->nullable();
                 $table->string('country')->nullable();
                 $table->integer('postal_code')->unsigned()->nullable();
