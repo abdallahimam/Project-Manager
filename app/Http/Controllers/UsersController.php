@@ -142,45 +142,64 @@ class UsersController extends Controller
         }
     }
 
-    public function delete(Request $request)
+    public function delete($user_id = null)
     {
         //
-        $user_id =$request->input('user_id');
-        if (auth()->user()->role_id == 1 || $user_id == auth()->user()->id) {
-            $deleted = User::find($user_id);
-            if ($deleted->delete()) {
-                return back()->with('success', 'User is moved to trash');
+        if ($user_id){
+            if ( $user_id != auth()->user()->id) {
+                if (auth()->user()->role_id == 1) {
+                    $deleted = User::find($user_id);
+                    if ($deleted->delete()) {
+                        return back()->with('success', 'User is moved to trash');
+                    }
+                    return back()->with('errors', ['User failed to move to trash']);
+                }
+                return back()->with('errors', ['this operation available only for admins.']);
             }
-            return back()->with('errors', ['User failed to move to trash']);
+            return back()->with('errors', ['The admin can not delete himself.']);
         }
+        return back()->with('errors', ['User Id is null.']);
     }
 
-    public function restore(Request $request)
+    public function restore($user_id = null)
     {
         //
-        $user_id =$request->input('user_id');
-        if (auth()->user()->role_id == 1 || $user_id == auth()->user()->id) {
-            $deleted = User::withTrashed()->find($user_id);
-            if ($deleted) {
-                User::where('id', $user_id)->restore();
-                return back()->with('success', 'User is restored from trash');
+        if ($user_id){
+            if ( $user_id != auth()->user()->id) {
+                if (auth()->user()->role_id == 1) {
+                    $deleted = User::withTrashed()->find($user_id);
+                    if ($deleted) {
+                        User::where('id', $user_id)->restore();
+                        return back()->with('success', 'User is restored from trash');
+                    }
+                    return back()->with('errors', ['User failed to restored from trash']);
+                }
+                return back()->with('errors', ['this operation available only for admins.']);
             }
-            return back()->with('errors', ['User failed to restored from trash']);
+            return back()->with('errors', ['The admin can not delete himself.']);
         }
+        return back()->with('errors', ['User failed to restored from trash.']);
+
     }
 
-    public function force_delete(Request $request)
+    public function force_delete($user_id = null)
     {
         //
-        $user_id =$request->input('user_id');
-        if (auth()->user()->role_id == 1 || $user_id == auth()->user()->id) {
-            $deleted = User::withTrashed()->find($user_id);
-            if ($deleted) {
-                User::where('id', $user_id)->forceDelete();
-                return back()->with('success', 'User is permenantly deleted');
+        if ($user_id){
+            if ( $user_id != auth()->user()->id) {
+                if (auth()->user()->role_id == 1) {
+                    $deleted = User::withTrashed()->find($user_id);
+                    if ($deleted) {
+                        User::where('id', $user_id)->forceDelete();
+                        return back()->with('success', 'User is permenantly deleted');
+                    }
+                    return back()->with('errors', ['User failed to permenantly deleted']);
+                }
+                return back()->with('errors', ['this operation available only for admins.']);
             }
-            return back()->with('errors', ['User failed to move to trash']);
+            return back()->with('errors', ['The admin can not delete himself.']);
         }
+        return back()->with('errors', ['User Id is null.']);
     }
 
     public function deleteSelected() {

@@ -42,11 +42,11 @@
                                         <td>{{$user->role->name}}</td>
                                         <td>
                                             <a href="{{ route('users.edit', [$user->id]) }}" class="btn btn-success btn-sm">Edit</a>
-                                            <input type="submit" name="single-button-trash" value="Remove" class="btn btn-danger btn-sm" />
+                                            <a href="{{ route('users.force_delete', [$user->id]) }}" class="btn btn-danger btn-sm">Remove</a>
                                             @if($user->deleted_at != null)
-                                            <input type="submit" name="single-button-trash" value="Restore" class="btn btn-primary btn-sm" />
+                                            <a href="{{ route('users.restore', [$user->id]) }}" class="btn btn-primary btn-sm">Restore</a>
                                             @else
-                                            <input type="submit" name="single-button-trash" value="Trash" class="btn btn-danger btn-sm" />
+                                            <a href="{{ route('users.delete', [$user->id]) }}" class="btn btn-danger btn-sm">Trash</a>
                                             @endif
                                         </td>
                                     </tr>

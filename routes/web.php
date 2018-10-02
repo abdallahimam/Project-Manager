@@ -62,9 +62,9 @@ Route::middleware(['auth'])->group(function () {
     //Route::get('/users/profile/{id?}/edit', 'UsersController@edit');
     //Route::post('/users/profile/update', 'UsersController@update');
 
-    Route::post('users/delete', 'UsersController@delete')->name('users.delete');
-    Route::post('users/restore/{user_id?}', 'UsersController@restore')->name('users.restore');
-    Route::post('users/force_delete/{user_id?}', 'UsersController@force_delete')->name('users.force_delete');
+    Route::get('users/delete/{user_id?}', 'UsersController@delete')->name('users.delete');
+    Route::get('users/restore/{user_id?}', 'UsersController@restore')->name('users.restore');
+    Route::get('users/force_delete/{user_id?}', 'UsersController@force_delete')->name('users.force_delete');
 
     Route::get('/dashboard', 'HomeController@dashboard')->name('dashboard');
     Route::get('/help', 'HomeController@help');

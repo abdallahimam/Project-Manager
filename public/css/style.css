@@ -24,7 +24,7 @@ a {
 /** my favorite color     #E9ECEF*/
 
 .my-favourit-color {
-    background-color: #7C5BC2 !important;
+    background-color: rgb(17, 4, 46) !important;
     color: white
 }
 
@@ -33,7 +33,7 @@ a {
     top: 0;
     left: 0;
     right: 0;
-    background-color: #7C5BC2 !important;
+    background-color: rgb(20, 3, 60) !important;
     color: #F1F1F1 !important;
     z-index: 9;
     min-height: 65px;
@@ -59,7 +59,7 @@ a {
 .list-item {
     margin: 0;
     padding: 5px 15px;
-    font-size: 16px;
+    font-size: 20px;
 }
 
 .list-item a {
@@ -68,7 +68,7 @@ a {
 }
 
 .list-item:hover {
-    background-color: #AC8EDE;
+    background-color: rgb(8, 1, 19);
 }
 
 .list-item:hover a {
@@ -82,26 +82,46 @@ a {
 
 @media(min-width: 1120px) {
     .sidebar {
-        background-color: #7C5BC2 !important;
+        background-color: rgb(17, 4, 46) !important;
         height: 100%;
         top: 65px;
         left: 0;
-        width: 240px;
-        z-index: 100;
-        font-size: 16px;
+        width: 260px;
+        z-index: 4 !important;
+        font-size: 20px;
+        opacity: 1;
+    }
+    .sidebar .sidebar-img {
+        margin: 0;
+        padding: 0;
+        position: absolute;
+        background-image: url('./../img/project-management-sidbar.png');
+        height: 100%;
+        width: 100%;
+        z-index: 1 !important;
+        opacity: 0.1;
+        top: 0;
+        left: 0;
+        background-position: center center;
+        background-size: cover;
+    }
+    .sidebar .sidebar-nav {
+        z-index: 4 !important;
+        width: 100%;
     }
     .footer {
         position: fixed;
         background-color: #d8c5f7;
         bottom: 0;
         right: 0;
-        left: 240px;
-        z-index: 1001;
+        left: 260px;
+        z-index: 5;
         font-size: 10px;
     }
 }
 
 .my-dashboard {
+    margin-top: 20px;
     font-size: 20px !important;
     border-bottom: 2px solid rgb(17, 1, 41);
 }

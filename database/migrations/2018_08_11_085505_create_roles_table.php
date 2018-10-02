@@ -23,6 +23,13 @@ class CreateRolesTable extends Migration
                 $table->timestamps();
             });
         }
+
+        if (Schema::hasTable('roles')) {
+            Artisan::call('db:seed' , [
+                '--class'   => 'RolesTableSeeder',
+                '--force'   =>true
+            ]);
+        }
     }
 
     /**
