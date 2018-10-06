@@ -1,5 +1,5 @@
 <div class="m-0 p-0 sidebar position-fixed">
-    <div class="nav sidebar-nav">
+    <div class="nav sidebar-nav my-sidebar">
         <ul class="list-unstyled w-100 m-0">
             <li class="list-item pl-5 my-dashboard"><a href="/dashboard"><i class="fa fa-dashboard mr-3"></i>DASHBOAED</a></li>
             <li class="list-item pl-5"><a href="{{ route('users.show', [auth()->user()->id]) }}"><i class="fa fa-user-circle mr-3"></i>Profile</a></li>

@@ -98,7 +98,7 @@ a {
         background-image: url('./../img/project-management-sidbar.png');
         height: 100%;
         width: 100%;
-        z-index: 1 !important;
+        z-index: -1 !important;
         opacity: 0.1;
         top: 0;
         left: 0;
